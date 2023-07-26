@@ -1,18 +1,23 @@
 import s from "./chat-section.module.scss";
 
-import { useRef, useEffect } from "react";
-
+import { useRef, useEffect, useState } from "react";
 import MessageBox from "../MessageBox";
+import MessageInput from "../MessageInput";
+
 
 const ChatSection = () => {
   const chat = useRef();
+  
 
   useEffect(() => {
     chat.current.scrollTop = chat.current.scrollHeight;
   }, []);
 
-  navigator.geolocation.getCurrentPosition((pos)=> console.log(pos.coords.longitude, pos.coords.latitude))
+  // navigator.geolocation.getCurrentPosition((pos) =>
+  //   console.log(pos.coords.longitude, pos.coords.latitude)
+  // );
 
+  
   return (
     <section className={s.chatSection}>
       <div className={s.chatHeader}></div>
@@ -52,6 +57,7 @@ const ChatSection = () => {
         />
         <MessageBox type="outcoming" text={["So what?"]} />
       </div>
+      <MessageInput/>
     </section>
   );
 };

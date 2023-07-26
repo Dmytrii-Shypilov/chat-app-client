@@ -6,7 +6,7 @@ import { Avatar } from "@mui/material";
 const DialogItem = ({userName, time, message, unread}) => {
   return (
     <li className={s.dialog}>
-      <Avatar>H</Avatar>
+      <Avatar>{userName[0].toUpperCase()}</Avatar>
       <div className={s.info}>
         <div className={s.wrapper}>
           <span className={s.name}>{userName}</span>

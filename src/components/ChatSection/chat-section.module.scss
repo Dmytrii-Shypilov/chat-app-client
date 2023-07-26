@@ -1,6 +1,6 @@
 .chatSection {
     flex-grow: 1;
-    height: 100vh;
+    height: 100hv;
 }
 
 .chatHeader {
@@ -9,10 +9,11 @@
 }
 
 .chatField {
-    height: calc(100vh - 60px);
+    height: calc(100vh - 110px);
     padding: 15px 0;
     background-image: url('../../images/chat-wallpaper.webp');
     background-size: cover;
     overflow-y: auto;
     
 }
+
