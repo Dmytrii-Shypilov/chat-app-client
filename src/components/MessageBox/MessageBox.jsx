@@ -1,4 +1,5 @@
 import s from './message-box.module.scss'
+import { memo } from 'react'
 
 const MessageBox = ({type, text}) => {
     const className = type === 'incoming'? [s.messageBoxInc, s.messageInc] : [s.messageBoxOut, s.messageOut]
@@ -16,4 +17,4 @@ const MessageBox = ({type, text}) => {
     )
 }
 
-export default MessageBox
+export default memo(MessageBox)

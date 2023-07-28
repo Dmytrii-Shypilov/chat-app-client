@@ -10,20 +10,24 @@ import { useState } from "react";
 import { LogOutIcon } from "../../images/svg/LogOutIcon";
 import { logOutUser } from "../../redux/user/user-operations";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { getUser } from "../../redux/user/user-selector";
 
 
 
 const DialogsSection = () => {
   const [view, setView] = useState("dialogs");
   const dispatch = useDispatch()
+  const {token, name} = useSelector(getUser)
   const onLogOut =()=> {
-    dispatch(logOutUser())
+    dispatch(logOutUser(token))
   }
 
   return (
     <section className={s.section}>
       <div className={s.header}>
-        <Avatar>Me</Avatar>
+        <Avatar>{name[0]}</Avatar> 
+        <span className={s.name}>{name}</span>
         <button className={s.logOutBtn} onClick={onLogOut}>
         <LogOutIcon className={s.logOutIcon}/>
         </button>

@@ -5,59 +5,31 @@ import MessageBox from "../MessageBox";
 import MessageInput from "../MessageInput";
 
 
-const ChatSection = () => {
+const ChatSection = ({socket}) => {
   const chat = useRef();
   
+  const [messages, setMessages] = useState([])
 
   useEffect(() => {
     chat.current.scrollTop = chat.current.scrollHeight;
   }, []);
 
+
+
   // navigator.geolocation.getCurrentPosition((pos) =>
   //   console.log(pos.coords.longitude, pos.coords.latitude)
   // );
 
-  
+  const messagesList = messages.map(({type, text, time})=><MessageBox type={type} text={text}/>)
+ 
+console.log(messagesList)
   return (
     <section className={s.chatSection}>
       <div className={s.chatHeader}></div>
       <div ref={chat} className={s.chatField}>
-        <MessageBox
-          type="incoming"
-          text={[
-            "Hey! How are you? Are you planning to go out tonight?",
-            "Ah?",
-          ]}
-        />
-        <MessageBox
-          type="outcoming"
-          text={[
-            "Hey! How are you? Are you planning to go out tonight?",
-            "We are leaving",
-            "Soon",
-            "Are you?",
-          ]}
-        />
-        <MessageBox type="outcoming" text={["So what?"]} />
-        <MessageBox
-          type="incoming"
-          text={[
-            "Hey! How are you? Are you planning to go out tonight?",
-            "Ah?",
-          ]}
-        />
-        <MessageBox
-          type="outcoming"
-          text={[
-            "Hey! How are you? Are you planning to go out tonight?",
-            "We are leaving",
-            "Soon",
-            "Are you?",
-          ]}
-        />
-        <MessageBox type="outcoming" text={["So what?"]} />
+        {messagesList}
       </div>
-      <MessageInput/>
+      <MessageInput allMessages={messages}setOutcomingMessage={setMessages}/>
     </section>
   );
 };

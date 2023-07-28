@@ -5,22 +5,43 @@ import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 import ChatSection from "../../components/ChatSection";
 import DialogsSection from "../../components/Dialogs/DialogsSection";
-import { ScopedCssBaseline } from "@mui/material";
+import { useSelector } from "react-redux";
+import { getUser } from "../../redux/user/user-selector";
+
 
 const ChatPage = () => {
   const [socket, setSocket] = useState(null);
-
+  const {name} = useSelector(getUser)
   useEffect(() => {
-    const socketInstance = io.connect("http://localhost:4000");
-    setSocket(socketInstance);
+    // let newSocket;
+
+    // const storeSocketId = localStorage.getItem("socketId");
+    // if (storeSocketId) {
+    //   newSocket = io.connect("http://localhost:4000", {
+    //     query: { socketId: storeSocketId },
+    //   });
+    // }
+     const newSocket = io.connect("http://localhost:4000", {
+      query: {
+        user: name,
+      }
+     });
+
+     setSocket(newSocket)
+    
+     return ()=> {
+      if (newSocket) {
+        newSocket.disconnect()
+      }
+     }
+    
   }, []);
 
-
-  useEffect(() => {
-    if (socket) {
-      socket.emit("add-user", { id: "444444444444" });
-    }
-  }, [socket]);
+  // useEffect(() => {
+  //   if (socket) {
+  //     socket.emit("add-user", { id: "444444444444" });
+  //   }
+  // }, [socket]);
 
   // useEffect(() => {
   //   if (socket) {
@@ -32,8 +53,8 @@ const ChatPage = () => {
 
   return (
     <section className={s.section}>
-      <DialogsSection />
-      <ChatSection />
+      <DialogsSection socket={socket} />
+      <ChatSection socket={socket} />
     </section>
   );
 };
