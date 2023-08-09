@@ -6,6 +6,7 @@ export const getAllDialogs = createAsyncThunk(
     async (token, {rejectWithValue}) => {
         try {
             const dialogs = await requestsAPI.fetchAllDialogs(token)
+            return dialogs
         } catch (error) {
             rejectWithValue(error)
         }
