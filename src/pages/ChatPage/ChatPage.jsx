@@ -10,7 +10,6 @@ import { getAllUsers } from "../../redux/allUsers/allUsers-operations";
 import { getCurrentUser } from "../../redux/user/user-operations";
 import { getAllDialogs } from "../../redux/dialogs/dialogs-operations";
 const ChatPage = () => {
-  const [socket, setSocket] = useState(null);
   const { name, token } = useSelector(getUser);
 
   const dispatch = useDispatch();
@@ -64,8 +63,8 @@ const ChatPage = () => {
   return (
     <SocketContextProvider>
       <section className={s.section}>
-        <DialogsSection socket={socket} />
-        <ChatSection socket={socket} />
+        <DialogsSection  />
+        <ChatSection  />
       </section>
     </SocketContextProvider>
   );
