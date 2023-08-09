@@ -38,7 +38,7 @@ const logOut = async (token) => {
 
 const getCurrent = async (token) => {
   try {
-    const { data } = await appRequest.post("/users/current", {
+    const { data } = await appRequest.get("/users/current", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -76,12 +76,26 @@ const addDialog = async(token, userId) => {
   }
 }
 
+const fetchAllDialogs = async(token) => {
+  try {
+    const {data} = await appRequest.get('dialogs/all', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const requestsAPI = {
   logIn,
   signUp,
   logOut,
   getCurrent,
   fetchAllUsers,
-  addDialog
+  addDialog, 
+  fetchAllDialogs
 };
 

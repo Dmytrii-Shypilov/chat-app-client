@@ -11,8 +11,10 @@ import { LogOutIcon } from "../../images/svg/LogOutIcon";
 import { logOutUser } from "../../redux/user/user-operations";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { useContext } from "react";
+import { SocketContext } from "../../context/socketContext";
 import { getUser } from "../../redux/user/user-selector";
-import { requestsAPI } from "../../services/requests";
+import { obtainAllUsers } from "../../redux/allUsers/allUsers-selector";
 
 const DialogsSection = () => {
   const [view, setView] = useState("dialogs");
@@ -21,16 +23,15 @@ const DialogsSection = () => {
 
   const dispatch = useDispatch();
   const { token, name } = useSelector(getUser);
+  const { allUsers } = useSelector(obtainAllUsers);
+  const { socket } = useContext(SocketContext);
+
   const onLogOut = () => {
+    if (socket) {
+      socket.disconnect();
+    }
     dispatch(logOutUser(token));
   };
-
-  useEffect(() => {
-    requestsAPI.fetchAllUsers(token).then((res) => {
-      console.log(res)
-      setUsers(res);
-    });
-  }, []);
 
   return (
     <section className={s.section}>
@@ -47,8 +48,8 @@ const DialogsSection = () => {
         <input className={s.searchInput} type="text" />
         <SwitchableIcon view={view} setView={setView} />
       </div>
-      {view === "dialogs" && <DialogsList dialogs={dialogs} />}
-      {view === "users" && <UsersList users={users} />}
+      {view === "dialogs" && <DialogsList dialogs={allUsers} />}
+      {view === "users" && <UsersList users={allUsers} />}
     </section>
   );
 };

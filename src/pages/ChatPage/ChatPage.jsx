@@ -1,41 +1,51 @@
 import s from "./chat-page.module.scss";
 
-import { io } from "socket.io-client";
-
 import { useEffect, useState } from "react";
 import ChatSection from "../../components/ChatSection";
 import DialogsSection from "../../components/Dialogs/DialogsSection";
-import { useSelector } from "react-redux";
+import { SocketContextProvider } from "../../context/socketContext";
+import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../redux/user/user-selector";
-
-
+import { getAllUsers } from "../../redux/allUsers/allUsers-operations";
+import { getCurrentUser } from "../../redux/user/user-operations";
+import { getAllDialogs } from "../../redux/dialogs/dialogs-operations";
 const ChatPage = () => {
   const [socket, setSocket] = useState(null);
-  const {name} = useSelector(getUser)
+  const { name, token } = useSelector(getUser);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    // let newSocket;
-
-    // const storeSocketId = localStorage.getItem("socketId");
-    // if (storeSocketId) {
-    //   newSocket = io.connect("http://localhost:4000", {
-    //     query: { socketId: storeSocketId },
-    //   });
-    // }
-     const newSocket = io.connect("http://localhost:4000", {
-      query: {
-        user: name,
-      }
-     });
-
-     setSocket(newSocket)
-    
-     return ()=> {
-      if (newSocket) {
-        newSocket.disconnect()
-      }
-     }
-    
+    if (token) {
+      dispatch(getCurrentUser(token));
+      dispatch(getAllUsers(token));
+      dispatch(getAllDialogs(token))
+    }
   }, []);
+
+  // useEffect(() => {
+  //   // let newSocket;
+
+  //   // const storeSocketId = localStorage.getItem("socketId");
+  //   // if (storeSocketId) {
+  //   //   newSocket = io.connect("http://localhost:4000", {
+  //   //     query: { socketId: storeSocketId },
+  //   //   });
+  //   // }
+  //   const newSocket = io.connect("http://localhost:4000", {
+  //     query: {
+  //       user: name,
+  //     },
+  //   });
+
+  //   setSocket(newSocket);
+
+  //   return () => {
+  //     if (newSocket) {
+  //       newSocket.disconnect();
+  //     }
+  //   };
+  // }, []);
 
   // useEffect(() => {
   //   if (socket) {
@@ -52,10 +62,12 @@ const ChatPage = () => {
   // }, [socket]);
 
   return (
-    <section className={s.section}>
-      <DialogsSection socket={socket} />
-      <ChatSection socket={socket} />
-    </section>
+    <SocketContextProvider>
+      <section className={s.section}>
+        <DialogsSection socket={socket} />
+        <ChatSection socket={socket} />
+      </section>
+    </SocketContextProvider>
   );
 };
 

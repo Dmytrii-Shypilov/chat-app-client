@@ -9,6 +9,7 @@ import {
 const initialState = {
   name: null,
   token: null,
+  id: null,
   isLoading: false,
 };
 
@@ -23,6 +24,7 @@ const userSlice = createSlice({
       .addCase(signUpUser.fulfilled, (state, { payload }) => {
         state.name = payload.name;
         state.token = payload.token;
+        state.id = payload.id
         state.isLoading = false;
       })
       .addCase(logInUser.pending, (state) => {
@@ -31,6 +33,7 @@ const userSlice = createSlice({
       .addCase(logInUser.fulfilled, (state, { payload }) => {
         state.name = payload.name;
         state.token = payload.token;
+        state.id = payload.id
         state.isLoading = false;
       })
       .addCase(logOutUser.pending, (state) => {
@@ -39,14 +42,17 @@ const userSlice = createSlice({
       .addCase(logOutUser.fulfilled, (state) => {
         state.name = null;
         state.token = null;
+        state.id = null
         state.isLoading = false;
       })
       .addCase(getCurrentUser.pending, (state) => {
         state.isLoading = true
       })
       .addCase(getCurrentUser.fulfilled, (state, {payload})=> {
+        console.log(payload)
         state.name = payload.name
         state.token = payload.token
+        state.id = payload.id
         state.isLoading = false
       })
   },

@@ -40,6 +40,7 @@ import UsersListItem from './UsersListItem'
 //   ];
 
 const UsersList = ({users}) => {
+    
     const usersList = users.length ? users.map(user => <UsersListItem {...user}/>) : <p class='message'>No registered users found</p>
     return (
         <ul>

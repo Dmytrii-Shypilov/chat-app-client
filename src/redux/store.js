@@ -1,5 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { userReducer } from "./user/user-slice";
+import { allUsersReducer } from "./allUsers/allUsers-slice";
+import { dialogsReducer } from "./dialogs/dialogs-slice";
 import {
   persistReducer,
   persistStore,
@@ -23,6 +25,8 @@ const persReducer = persistReducer(persistConfig, userReducer);
 
 const reducer = combineReducers({
   user: persReducer,
+  allUsers: allUsersReducer,
+  dialogs: dialogsReducer,
 });
 
 export const store = configureStore({
