@@ -3,14 +3,15 @@ import s from "./message-input.module.scss";
 import { useState } from "react";
 import { SendIcon } from "../../images/svg/SendIcon";
 
-const MessageInput = ({ messages, setOutcomingMessage}) => {
+const MessageInput = ({ messages, setOutcomingMessage }) => {
   const [message, setMessage] = useState("");
 
   const onInput = (e) => {
     setMessage(e.target.value);
   };
 
-  const onSendMessage = () => {
+  const onSendMessage = (e) => {
+    e.preventDefault();
     setOutcomingMessage((prevState) => {
       console.log("messages", messages);
       const time = new Date().getTime();
@@ -26,8 +27,8 @@ const MessageInput = ({ messages, setOutcomingMessage}) => {
           console.log("all > 1", allMessages);
           const sorted = outcoming.toSorted(
             (a, b) =>
-              a.text[outcoming[outcoming.length-1].text.length - 1] -
-              b.text[outcoming[outcoming.length-1].text.length - 1]
+              a.text[outcoming[outcoming.length - 1].text.length - 1] -
+              b.text[outcoming[outcoming.length - 1].text.length - 1]
           );
           lastMessage = sorted[sorted.length - 1];
           console.log("lastMessage", lastMessage);
@@ -55,17 +56,21 @@ const MessageInput = ({ messages, setOutcomingMessage}) => {
   };
 
   return (
-    <div className={s.messageInput}>
+    <form onSubmit={onSendMessage} className={s.messageInput}>
       <input
         onChange={onInput}
         value={message}
         className={s.input}
         type="text"
       />
-      <button onClick={onSendMessage} className={s.sendBtn} disabled={message ? false : true}>
-        <SendIcon  className={s.sendIcon} />
+      <button
+        type="submit"
+        className={s.sendBtn}
+        disabled={message ? false : true}
+      >
+        <SendIcon className={s.sendIcon} />
       </button>
-    </div>
+    </form>
   );
 };
 

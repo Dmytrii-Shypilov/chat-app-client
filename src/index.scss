@@ -20,6 +20,7 @@ ul {
 :root {
   --main-br-col: #1976d2;
   --main-bg-col: #fff;
+  --secondary-font-col: var(--main-bg-col)
 }
 
 ::-webkit-scrollbar {

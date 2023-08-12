@@ -1,11 +1,25 @@
 .chatSection {
-    flex-grow: 1;
+    flex-grow: 3;
     height: 100hv;
 }
 
 .chatHeader {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 60px;
     background-color: var(--main-br-col);
+
+}
+
+.colocutor {
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+    font-size: 25px;
+    font-weight: 600;
+    color: var(--main-bg-col);
 }
 
 .chatField {
@@ -16,4 +30,5 @@
     overflow-y: auto;
     
 }
+
 

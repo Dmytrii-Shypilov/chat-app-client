@@ -11,7 +11,7 @@ import { getDialogs } from "../../../../redux/dialogs/dialogs-selector";
 
 
 const UserslistItem = ({ name, _id }) => {
-  const { socket, user } = useContext(SocketContext);
+  const { socket} = useContext(SocketContext);
   const { dialogs } = useSelector(getDialogs);
 
   const dialog = dialogs.find((el) =>
@@ -20,8 +20,11 @@ const UserslistItem = ({ name, _id }) => {
   const colocutor = dialog
     ? dialog.participants.find((el) => el.id === _id)
     : null;
+
+    // if this colocutor has sent a request for a connection with the user
 const requestedFriendship = dialog && !(dialog.participants.find(el=> el.id !== _id)).accepted
-  const sendDialogRequest = (e) => {
+  
+const sendDialogRequest = (e) => {
     if (socket && socket.connected && !colocutor) {
       socket.emit("createDialog", { colocutorId: _id, colocutorName: name });
     }

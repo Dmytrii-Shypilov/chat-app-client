@@ -3,20 +3,24 @@ import { useState } from "react";
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { getUser } from "../redux/user/user-selector";
+import { useDispatch } from "react-redux";
+import { DialogActions } from "@mui/material";
+import { dialogsActions } from "../redux/dialogs/dialogs-slice";
 
 export const SocketContext = createContext({ socket: null });
 
 export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-
   const { name, token, id } = useSelector(getUser);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const newSocket = io.connect("http://localhost:4000", {
       auth: {
         userName: name,
         userId: id,
-        token
+        token,
       },
     });
 
@@ -24,19 +28,22 @@ export const SocketContextProvider = ({ children }) => {
 
     return () => {
       if (socket) {
+        ["updateDialogs", "InviteAccepted"].forEach((el) => socket.off(el));
         socket.disconnect();
       }
     };
   }, []);
 
-  useEffect(()=> {
-    if(socket) {
-      console.log(socket.id)
-      socket.on('updateDialogs', (data)=> console.log(data))
+  useEffect(() => {
+    if (socket) {
+      socket.on("updateDialogs", (data) => {
+        dispatch(dialogsActions.addDialog(data));
+      });
+      socket.on("InviteAccepted", (data) => {
+        dispatch(dialogsActions.updateAcceptedStatus(data));
+      });
     }
-  }, [socket])
-
- 
+  }, [socket]);
 
   const value = {
     socket,

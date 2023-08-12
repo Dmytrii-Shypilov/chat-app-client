@@ -7,6 +7,19 @@ const dialogsSlice = createSlice({
         dialogs: [],
         isLoading: false
     },
+    reducers: {
+        addDialog: (state, {payload}) => {
+            state.dialogs.push(payload.dialog)
+        },
+        updateAcceptedStatus: (state, {payload}) => {
+            console.log('invite update', payload)
+            const {dialogId, acceptedBy} = payload
+            const dialog = state.dialogs.find(el => el._id === dialogId)
+            console.log(dialog)
+            const participant = dialog.participants.find(el=> el.id === acceptedBy)
+            participant.accepted = true
+        }
+    },
     extraReducers: (builder)=> {
         builder
         .addCase(getAllDialogs.pending, (state)=> {
@@ -22,3 +35,4 @@ const dialogsSlice = createSlice({
 })
 
 export const dialogsReducer = dialogsSlice.reducer
+export const dialogsActions = dialogsSlice.actions

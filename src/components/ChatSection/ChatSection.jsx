@@ -1,19 +1,27 @@
 import s from "./chat-section.module.scss";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef,useEffect, useState } from "react";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { getDialogs } from "../../redux/dialogs/dialogs-selector";
 import MessageBox from "../MessageBox";
 import MessageInput from "../MessageInput";
+import Button from "../../ui/Button/Button";
 
-const ChatSection = ({ socket }) => {
-  const chat = useRef();
-
+const ChatSection = ({ socket, chatData }) => {
   const [messages, setMessages] = useState([]);
+
+  const chat = useRef()
+  const {dialogs} = useSelector(getDialogs)
+  const {chatId, colocutor} = chatData
+  
 
   const moveToBottom = () => {
     chat.current.scrollTop = chat.current.scrollHeight;
   };
 
   useEffect(() => {
+    const messages = dialogs.find(dial=> dial.id === chatId)?.messages
+    setMessages(messages)
     moveToBottom();
   }, []);
 
@@ -35,7 +43,12 @@ const ChatSection = ({ socket }) => {
 
   return (
     <section className={s.chatSection}>
-      <div className={s.chatHeader}></div>
+      <div className={s.chatHeader}>
+        <span className={s.colocutor}>{colocutor}</span>
+        <Button type='light' style={{position: 'absolute', right: 25}}>
+          delete dialog
+        </Button>
+      </div>
       <div ref={chat} className={s.chatField}>
         {messagesList}
       </div>
