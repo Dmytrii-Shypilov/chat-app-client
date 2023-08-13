@@ -45,8 +45,15 @@ export const SocketContextProvider = ({ children }) => {
     }
   }, [socket]);
 
+  const emitSocketEvent = (event, data) => {
+    if (socket && socket.connected) {
+      socket.emit(event, data)
+    }
+  }
+
   const value = {
     socket,
+    emitSocketEvent,
     user: {
       name,
       token,

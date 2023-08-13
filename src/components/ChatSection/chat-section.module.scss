@@ -1,11 +1,12 @@
 .chatSection {
-    flex-grow: 3;
+    flex-grow: 1;
     height: 100hv;
 }
 
 .chatHeader {
     position: relative;
     display: flex;
+    // flex-grow: 1;
     justify-content: center;
     align-items: center;
     height: 60px;
@@ -16,7 +17,7 @@
 .colocutor {
     display: flex;
     align-items: center;
-    margin-right: 40px;
+    // margin-right: 40px;
     font-size: 25px;
     font-weight: 600;
     color: var(--main-bg-col);
@@ -27,6 +28,7 @@
     padding: 15px 0;
     background-image: url('../../images/chat-wallpaper.webp');
     background-size: cover;
+    background-repeat: no-repeat;
     overflow-y: auto;
     
 }

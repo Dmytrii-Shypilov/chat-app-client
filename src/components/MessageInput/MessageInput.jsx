@@ -2,9 +2,15 @@ import s from "./message-input.module.scss";
 
 import { useState } from "react";
 import { SendIcon } from "../../images/svg/SendIcon";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { getUser } from "../../redux/user/user-selector";
+import { useContext } from "react";
+import { SocketContext } from "../../context/socketContext";
 
-const MessageInput = ({ messages, setOutcomingMessage }) => {
+const MessageInput = ({ messages, setOutcomingMessage, chatId }) => {
   const [message, setMessage] = useState("");
+  const { emitSocketEvent } = useContext(SocketContext);
+  const { name, id } = useSelector(getUser);
 
   const onInput = (e) => {
     setMessage(e.target.value);
@@ -19,19 +25,17 @@ const MessageInput = ({ messages, setOutcomingMessage }) => {
       console.log(allMessages);
       if (allMessages.length) {
         let lastMessage;
-        const outcoming = allMessages.filter(
-          (mess) => mess.type === "outcoming"
-        );
+        const outcoming = allMessages.filter((mess) => mess.from === id);
         console.log("outcoming", outcoming);
+
         if (outcoming.length > 1) {
           console.log("all > 1", allMessages);
           const sorted = outcoming.toSorted(
-            (a, b) =>
-              a.text[outcoming[outcoming.length - 1].text.length - 1] -
-              b.text[outcoming[outcoming.length - 1].text.length - 1]
+            (a, b) => a.messageContent.at(-1).time - b.messageContent.at(-1).time
           );
-          lastMessage = sorted[sorted.length - 1];
+          lastMessage = sorted.at(-1);
           console.log("lastMessage", lastMessage);
+
         } else if (outcoming.length === 1) {
           lastMessage = outcoming[0];
           console.log("lastMessage 1 only", lastMessage);
@@ -39,16 +43,37 @@ const MessageInput = ({ messages, setOutcomingMessage }) => {
 
         const idx = allMessages.indexOf(lastMessage);
         console.log("idx", idx);
-        if (time - lastMessage.text[lastMessage.text.length - 1][1] < 3000) {
-          allMessages[idx].text.push([message, time]);
+
+        if (time - lastMessage.messageContent[lastMessage.messageContent.length - 1].time < 3000) {
+          const text = {
+            message,
+            time,
+            isRead: false,
+          };
+          allMessages[idx].messageContent.push(text);
+          emitSocketEvent('addMessage', {dialogId: chatId, lastMessageIdx: idx, messageData: {from: id, message: text}})
           console.log("updated All", allMessages);
           return allMessages;
+
         } else {
-          const newMessage = { type: "outcoming", text: [[message, time]] };
+          const text = {
+            message,
+            time,
+            isRead: false,
+          };
+          const newMessage = { from: id, messageContent: [text] };
+          emitSocketEvent('addMessage', {dialogId: chatId ,lastMessageIdx: null, messageData: {from: id, message: text}})
           return [...prevState, newMessage];
         }
+
       } else {
-        const newMessage = { type: "outcoming", text: [[message, time]] };
+        const text = {
+          message,
+          time,
+          isRead: false,
+        };
+        const newMessage = { from: id, messageContent: [text] };
+        emitSocketEvent('addMessage', {dialogId: chatId, lastMessageIdx: null, messageData: {from: id, message: text}})
         return [...prevState, newMessage];
       }
     });

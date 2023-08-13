@@ -61,13 +61,18 @@
 
 .text {
     display: block;
-    font-size: 14px;
+    // min-width: 20px;
+    font-size: 18px;
+    // margin-bottom: 7px;
     text-align: left;
 }
 .time {
     position: absolute;
-    bottom: 2px;
-    right: 2px;
+    left: -35px;
+    // bottom: 4px;
+    // right: 10px;
     display: block;
-    font-size: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--secondary-font-col);
 }

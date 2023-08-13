@@ -19,7 +19,7 @@ const DialogItem = ({ colocutor, dialog, openChat }) => {
       openChat({
         isChatOpen: true,
         chatData: {
-          chatId: dialog.id,
+          chatId: dialog._id,
           colocutor: name
         }
       })
@@ -33,7 +33,7 @@ const DialogItem = ({ colocutor, dialog, openChat }) => {
   }
 
   const denyInvite = () => {
-    if(socket) {
+    if(socket && socket.connected) {
       socket.emit('denyInvite', {dialogId: dialog._id})
     }
   }

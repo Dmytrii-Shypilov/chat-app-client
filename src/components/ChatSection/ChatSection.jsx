@@ -7,20 +7,21 @@ import MessageBox from "../MessageBox";
 import MessageInput from "../MessageInput";
 import Button from "../../ui/Button/Button";
 
-const ChatSection = ({ socket, chatData }) => {
+const ChatSection = ({ chatData }) => {
   const [messages, setMessages] = useState([]);
 
   const chat = useRef()
   const {dialogs} = useSelector(getDialogs)
   const {chatId, colocutor} = chatData
   
+  console.log('chatDta', chatData)
 
   const moveToBottom = () => {
     chat.current.scrollTop = chat.current.scrollHeight;
   };
 
   useEffect(() => {
-    const messages = dialogs.find(dial=> dial.id === chatId)?.messages
+    const messages = dialogs.find(dial=> dial._id === chatId)?.messages
     setMessages(messages)
     moveToBottom();
   }, []);
@@ -37,8 +38,8 @@ const ChatSection = ({ socket, chatData }) => {
   // CHANGE. TEXT ARRAY IS MUTATED BY ADDING NEW ELEMENT. SUPPOSE TO CHANGE A REFFERENCE TO IT BY 
   // DESTRUCT-N AND ADDING NEW EL-T BUT NOT BY PUSHING NEW MESSAGE.
   // PROP CHANGE IS DETECTED BY REF CHANGE TO THE OBJ)
-  const messagesList = messages.map(({ type, text }) => (
-    <MessageBox type={type} text={text} />
+  const messagesList = messages.map(({ from, messageContent }) => (
+    <MessageBox from={from} messageContent={messageContent} />
   ));
 
   return (
@@ -52,7 +53,7 @@ const ChatSection = ({ socket, chatData }) => {
       <div ref={chat} className={s.chatField}>
         {messagesList}
       </div>
-      <MessageInput messages={messages} setOutcomingMessage={setMessages} />
+      <MessageInput messages={messages} chatId={chatId} setOutcomingMessage={setMessages} />
     </section>
   );
 };
