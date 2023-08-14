@@ -1,4 +1,4 @@
-import s from './users-list.module.scss'
+
 
 import UsersListItem from './UsersListItem'
 

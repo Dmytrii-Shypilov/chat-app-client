@@ -16,7 +16,7 @@ import { SocketContext } from "../../context/socketContext";
 import { getUser } from "../../redux/user/user-selector";
 import { obtainAllUsers } from "../../redux/allUsers/allUsers-selector";
 import { getDialogs } from "../../redux/dialogs/dialogs-selector";
-import { requestsAPI } from "../../services/requests";
+
 
 const DialogsSection = ({ openChat }) => {
   const [dialogsList, setDialogsList] = useState([]);

@@ -11,7 +11,7 @@ const DialogItem = ({ colocutor, dialog, openChat }) => {
   const { name } = colocutor;
   const {socket} = useContext(SocketContext)
 
-const {unread, lastMessageTime, lastMessageText} = getDialoginfo(dialog, colocutor.id)
+const {lastMessageTime, lastMessageText} = getDialoginfo(dialog, colocutor.id)
 
   const requestedFriendship = dialog.participants.find(
     (el) => el.id === colocutor.id

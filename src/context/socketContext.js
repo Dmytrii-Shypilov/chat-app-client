@@ -4,7 +4,6 @@ import { io } from "socket.io-client";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { getUser } from "../redux/user/user-selector";
 import { useDispatch } from "react-redux";
-import { DialogActions } from "@mui/material";
 import { dialogsActions } from "../redux/dialogs/dialogs-slice";
 
 export const SocketContext = createContext({ socket: null });
@@ -32,7 +31,7 @@ export const SocketContextProvider = ({ children }) => {
         socket.disconnect();
       }
     };
-  }, []);
+  }, [id, name, socket, token]);
 
   useEffect(() => {
     if (socket) {
@@ -48,7 +47,7 @@ export const SocketContextProvider = ({ children }) => {
 
       })
     }
-  }, [socket]);
+  }, [socket, dispatch]);
 
   const emitSocketEvent = (event, data) => {
     if (socket && socket.connected) {

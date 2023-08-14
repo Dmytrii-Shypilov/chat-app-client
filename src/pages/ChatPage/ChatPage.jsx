@@ -10,10 +10,10 @@ import { getAllUsers } from "../../redux/allUsers/allUsers-operations";
 import { getCurrentUser } from "../../redux/user/user-operations";
 import { getAllDialogs } from "../../redux/dialogs/dialogs-operations";
 import ChatPlaceholder from "../../components/ChatPlaceholder";
-import { useCallback } from "react";
+
 
 const ChatPage = () => {
-  const { name, token } = useSelector(getUser);
+  const { token } = useSelector(getUser);
   const [chat, setChat] = useState({
     isChatOpen: false,
     chatData: {chatId: null, colocutor: null},
@@ -29,7 +29,7 @@ const ChatPage = () => {
       dispatch(getAllUsers(token));
       dispatch(getAllDialogs(token));
     }
-  }, []);
+  }, [dispatch, token]);
 
   return (
     <SocketContextProvider>

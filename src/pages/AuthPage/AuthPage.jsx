@@ -3,7 +3,6 @@ import s from "./auth-page.module.scss";
 import icon from "../../images/chat-icon.png";
 
 import AuthForm from "../../components/AuthForm";
-import { Container } from "@mui/material";
 import Logo from "../../images/svg/Logo";
 
 const AuthPage = () => {

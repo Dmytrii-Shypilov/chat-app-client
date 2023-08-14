@@ -1,5 +1,5 @@
 import s from "./chat-placeholder.module.scss";
-import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 import { getUser } from "../../redux/user/user-selector";
 
 const ChatPlaceholder = () => {

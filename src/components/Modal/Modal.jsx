@@ -1,4 +1,4 @@
-import s from "./modal.module.scss";
+
 
 import { createPortal } from "react-dom";
 

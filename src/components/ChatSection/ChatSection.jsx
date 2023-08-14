@@ -26,7 +26,7 @@ const ChatSection = ({ chatData }) => {
     setMessages(messages)
     moveToBottom();
     /// Event setting the messages to isRead: true
-  }, [dialogs, chatData]);
+  }, [dialogs, chatData, chatId]);
 
   useEffect(() => {
     moveToBottom();

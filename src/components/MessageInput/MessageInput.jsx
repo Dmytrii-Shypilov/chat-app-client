@@ -8,10 +8,10 @@ import { useContext } from "react";
 import { SocketContext } from "../../context/socketContext";
 import { dialogsActions } from "../../redux/dialogs/dialogs-slice";
 import { useDispatch } from "react-redux";
-const MessageInput = ({ messages, setOutcomingMessage, chatId }) => {
+const MessageInput = ({ messages, chatId }) => {
   const [message, setMessage] = useState("");
   const { emitSocketEvent } = useContext(SocketContext);
-  const { name, id } = useSelector(getUser);
+  const { id } = useSelector(getUser);
 
     const dispatch = useDispatch()
 
@@ -72,7 +72,7 @@ const MessageInput = ({ messages, setOutcomingMessage, chatId }) => {
             time,
             isRead: false,
           };
-          const newMessage = { from: id, messageContent: [text] };
+          // const newMessage = { from: id, messageContent: [text] };
           emitSocketEvent('addMessage', {dialogId: chatId ,lastMessageIdx: null, messageData: {from: id, message: text}})
           dispatch(dialogsActions.addMessage({dialogId: chatId ,lastMessageIdx: null, messageData: {from: id, message: text}}))
           // return [...prevState, newMessage];
@@ -84,7 +84,7 @@ const MessageInput = ({ messages, setOutcomingMessage, chatId }) => {
           time,
           isRead: false,
         };
-        const newMessage = { from: id, messageContent: [text] };
+        // const newMessage = { from: id, messageContent: [text] };
         emitSocketEvent('addMessage', {dialogId: chatId, lastMessageIdx: null, messageData: {from: id, message: text}})
         dispatch(dialogsActions.addMessage({dialogId: chatId, lastMessageIdx: null, messageData: {from: id, message: text}}))
         // return [...prevState, newMessage];

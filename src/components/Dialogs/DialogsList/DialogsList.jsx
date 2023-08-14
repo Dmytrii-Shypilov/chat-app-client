@@ -9,7 +9,7 @@ const DialogsList = ({ dialogs, openChat }) => {
   const { id } = useSelector(getUser);
   // checks if all dialogs are created by the user: 
   // if 'false' => he has invitation to accept
-  const allCreatedByUser = dialogs.every(el=> (el.participants.find(el=> el.id === id))?.accepted)
+  // const allCreatedByUser = dialogs.every(el=> (el.participants.find(el=> el.id === id))?.accepted)
 
   const dialogsList =
     dialogs.length  ? (
