@@ -20,11 +20,15 @@ const ChatSection = ({ chatData }) => {
     chat.current.scrollTop = chat.current.scrollHeight;
   };
 
+  // check thes two useEffects
+
+
   useEffect(() => {
     const messages = dialogs.find(dial=> dial._id === chatId)?.messages
     setMessages(messages)
     moveToBottom();
-  }, []);
+    /// Event setting the messages to isRead: true
+  }, [dialogs, chatData]);
 
   useEffect(() => {
     moveToBottom();

@@ -5,11 +5,13 @@ import { Avatar } from "@mui/material";
 import Button from "../../../../ui/Button";
 import { useContext } from "react";
 import { SocketContext } from "../../../../context/socketContext";
+import { getDialoginfo } from "../../../../services/helpers";
 
 const DialogItem = ({ colocutor, dialog, openChat }) => {
   const { name } = colocutor;
   const {socket} = useContext(SocketContext)
 
+const {unread, lastMessageTime, lastMessageText} = getDialoginfo(dialog, colocutor.id)
 
   const requestedFriendship = dialog.participants.find(
     (el) => el.id === colocutor.id
@@ -63,12 +65,12 @@ const DialogItem = ({ colocutor, dialog, openChat }) => {
         <div className={s.info}>
           <div className={s.wrapper}>
             <span className={s.name}>{name}</span>
-            <span className={s.time}>11:30</span>
+            <span className={s.time}>{lastMessageTime}</span>
           </div>
 
           <div className={s.wrapper}>
-            <span className={s.message}>Hi! How are you?</span>
-            <span className={s.unread}>2</span>
+            <span className={s.message}>{lastMessageText}</span>
+            {/* <span className={s.unread}>{unread}</span> */}
           </div>
         </div>
       </li>

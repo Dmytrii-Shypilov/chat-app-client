@@ -28,7 +28,7 @@ export const SocketContextProvider = ({ children }) => {
 
     return () => {
       if (socket) {
-        ["updateDialogs", "InviteAccepted"].forEach((el) => socket.off(el));
+        ["UpdateDialogs", "InviteAccepted", "MessageAdded"].forEach((el) => socket.off(el));
         socket.disconnect();
       }
     };
@@ -36,12 +36,17 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (socket) {
-      socket.on("updateDialogs", (data) => {
+      socket.on("UpdateDialogs", (data) => {
         dispatch(dialogsActions.addDialog(data));
       });
       socket.on("InviteAccepted", (data) => {
         dispatch(dialogsActions.updateAcceptedStatus(data));
       });
+      socket.on("MessageAdded", (data)=> {
+        console.log('mess acceted event',data)
+        dispatch(dialogsActions.addMessage(data))
+
+      })
     }
   }, [socket]);
 

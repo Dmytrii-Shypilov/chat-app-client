@@ -17,8 +17,8 @@ const AuthForm = () => {
   const onSignUp = () => {
     if (name && password) {
       const user = {
-        name: name.current.value,
-        password: password.current.value,
+        name: name.current.value.trim(),
+        password: password.current.value.trim(),
       };
 
       dispatch(signUpUser(user));
