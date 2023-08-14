@@ -7,7 +7,6 @@ import DialogItem from "./DialogItem";
 
 const DialogsList = ({ dialogs, openChat }) => {
   const { id } = useSelector(getUser);
-console.log(dialogs)
   // checks if all dialogs are created by the user: 
   // if 'false' => he has invitation to accept
   const allCreatedByUser = dialogs.every(el=> (el.participants.find(el=> el.id === id))?.accepted)

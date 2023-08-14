@@ -69,7 +69,7 @@ const {unread, lastMessageTime, lastMessageText} = getDialoginfo(dialog, colocut
           </div>
 
           <div className={s.wrapper}>
-            <span className={s.message}>{lastMessageText}</span>
+            <span className={s.message}>{lastMessageText? lastMessageText : 'No messages yet'}</span>
             {/* <span className={s.unread}>{unread}</span> */}
           </div>
         </div>

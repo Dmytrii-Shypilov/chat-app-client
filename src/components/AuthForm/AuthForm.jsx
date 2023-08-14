@@ -1,4 +1,4 @@
-import { Form } from "react-router-dom";
+
 import s from "./auth-form.module.scss";
 
 import { useRef } from "react";
@@ -17,8 +17,8 @@ const AuthForm = () => {
   const onSignUp = () => {
     if (name && password) {
       const user = {
-        name: name.current.value.trim(),
-        password: password.current.value.trim(),
+        name: name.current.value,
+        password: password.current.value,
       };
 
       dispatch(signUpUser(user));
